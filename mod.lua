@@ -57,6 +57,10 @@ end
 
 function Mod:dogcheck()
     if Game.CHAPTER_SELECT then Game.CHAPTER_SELECT:close() end
+    if Game.CHAPTER_CONTINUE then Game.CHAPTER_CONTINUE:remove() end
+    if Game.SPLASH_SCREEN then Game.SPLASH_SCREEN:remove() end
+    if Game.DEBUG_MENU then Game.DEBUG_MENU:remove() end
+    if Game.world.cutscene then Game.world:stopCutscene() end
     Game.world:loadMap("dogcheck")
 end
 

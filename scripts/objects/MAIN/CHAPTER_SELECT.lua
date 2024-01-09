@@ -190,7 +190,7 @@ function ChapterSelect:loadChapter2(load_debug)
                         part:setScale(2)
                         part:play(0.25, true)
                         part.layer = 500
-                        Game.stage:addChild(part)
+                        self:addChild(part)
                         Assets.playSound("noise", 0.8, (0.5 + Utils.round(Utils.random(1), 0.2)))
                         table.insert(logoparts, part)
                     end
@@ -218,7 +218,7 @@ function ChapterSelect:loadChapter2(load_debug)
                     part:setScale(2)
                     part:play(0.25, true)
                     part.layer = 500
-                    Game.stage:addChild(part)
+                    self:addChild(part)
                     cutscene:wait(4)
                     Game.fader:fadeOut(self.returnToMenu, { speed = 0, music = 10 / 30 })
                     Game.state = "EXIT"
