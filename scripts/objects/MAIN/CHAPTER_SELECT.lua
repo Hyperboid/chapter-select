@@ -5,7 +5,7 @@ function ChapterSelect:init(width, height)
 
     Input.clear("confirm")
 
-    self.state = "SELECT" --SELECT, CONFIRM
+    self.state = "SELECT" --SELECT, CONFIRM, LOADING
 
     self.sc_scale_x = 1
 
@@ -111,6 +111,9 @@ end
 ------// Functions for loading each Chapter //------
 
 function ChapterSelect:loadChapter(index)
+    if self.parent == nil then Game.stage:addChild(self) end
+    self.state = "LOADING"
+    self.can_use = true
     Game.world.music:stop()
     Assets.playSound(self.chapters[index].sound)
     local screenshot = love.graphics.newImage(SCREEN_CANVAS:newImageData())
@@ -120,8 +123,9 @@ function ChapterSelect:loadChapter(index)
     self.screenshot.scale_y = 1
     self.screenshot:setOrigin(0, 0)
     self.screenshot.layer = 200
-    self:addChild(self.screenshot)
+    Game.stage:addChild(self.screenshot)
     self:fadeTo(0, 0.1)
+    if Game.CHAPTER_CONTINUE then Game.CHAPTER_CONTINUE:fadeTo(0, 0.1) Game.CHAPTER_CONTINUE.optionalpha = 0 end
     Game.lock_movement = true
     self.rectangle2 = Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
     self.rectangle2:setColor(0, 0, 0, 1)

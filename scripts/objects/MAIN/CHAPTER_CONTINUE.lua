@@ -24,6 +24,8 @@ function ChapterContinue:init(width, height)
     self.timer = 0
     self.optionalpha = 1
 
+    self.state = "MAIN" -- MAIN, TRANSITION (dont touch)
+
     self.can_use = false
 
     self.heart = Sprite("player/heart")
@@ -78,36 +80,6 @@ function ChapterContinue:init(width, height)
         end
     end
 end
-
-------// Functions for loading each Chapter //------
-
-function ChapterContinue:loadChapter(index)
-    Game.world.music:stop()
-    Assets.playSound(self.chapters[index].sound)
-    local screenshot = love.graphics.newImage(SCREEN_CANVAS:newImageData())
-    self.screenshot = Sprite(screenshot, 0, 0)
-    self.screenshot:setScaleOrigin(0.5, 0)
-    self.screenshot.scale_x = 1
-    self.screenshot.scale_y = 1
-    self.screenshot:setOrigin(0, 0)
-    self.screenshot.layer = 200
-    self:addChild(self.screenshot)
-    self:fadeTo(0, 0.1)
-    self.optionalpha = 0
-    Game.lock_movement = true
-    self.rectangle2 = Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-    self.rectangle2:setColor(0, 0, 0, 1)
-    self.rectangle2.layer = 100
-    self:addChild(self.rectangle2)
-    Game.world.timer:tween(1, self.screenshot, { scale_x = 0.1, scale_y = 0.7 })
-    self.screenshot:fadeOutAndRemove()
-    if index == 1 then
-        Game.CHAPTER_SELECT:loadChapter1()
-    elseif index == 2 then
-        Game.CHAPTER_SELECT:loadChapter2()
-    end
-end
-----------------------------------------------------
 
 function ChapterContinue:getDrawColor()
     local r, g, b, a = super.getDrawColor(self)
@@ -165,36 +137,39 @@ function ChapterContinue:update()
     self.timer = self.timer+DTMULT
     self.text_y = Utils.ease(10, 30, self.timer/40, "out-cubic")
     self.choices_y = Utils.ease(10, 30, self.timer/40, "out-cubic")
-    if self.can_use then
-        if Input.pressed("confirm", false) then
-            Input.clear("confirm")
-            if self.selected_index == 1 then
-                Assets.playSound("ui_select")
-                if self.action == "start" then
-                    self:loadChapter(Mod.startingchapter)
-                else
-                    self:loadChapter(self.continuechapter)
-                end
-            elseif self.selected_index == 2 then
-                Assets.playSound("ui_select")
-                Game.chapter = 1
-                Game.CHAPTER_SELECT = CHAPTER_SELECT()
-                Game.CHAPTER_SELECT.can_use = true
-                Game.stage:addChild(Game.CHAPTER_SELECT)
-                self:remove()
-            end
-        end
-        if Game.lock_movement == false then
-            if Input.pressed("up", false) then
-                Assets.playSound("ui_move")
-                if self.selected_index > 1 then
-                    self.selected_index = self.selected_index - 1
+    if self.state == "MAIN" then
+        if self.can_use then
+            if Input.pressed("confirm", false) then
+                Input.clear("confirm")
+                if self.selected_index == 1 then
+                    self.state = "TRANSITION"
+                    Assets.playSound("ui_select")
+                    if self.action == "start" then
+                        Game.CHAPTER_SELECT:loadChapter(Mod.startingchapter)
+                    else
+                        Game.CHAPTER_SELECT:loadChapter(self.continuechapter)
+                    end
+                elseif self.selected_index == 2 then
+                    Assets.playSound("ui_select")
+                    Game.chapter = 1
+                    Game.CHAPTER_SELECT = CHAPTER_SELECT()
+                    Game.CHAPTER_SELECT.can_use = true
+                    Game.stage:addChild(Game.CHAPTER_SELECT)
+                    self:remove()
                 end
             end
-            if Input.pressed("down", false) then
-                Assets.playSound("ui_move")
-                if self.selected_index < 2 then
-                    self.selected_index = self.selected_index + 1
+            if Game.lock_movement == false then
+                if Input.pressed("up", false) then
+                    Assets.playSound("ui_move")
+                    if self.selected_index > 1 then
+                        self.selected_index = self.selected_index - 1
+                    end
+                end
+                if Input.pressed("down", false) then
+                    Assets.playSound("ui_move")
+                    if self.selected_index < 2 then
+                        self.selected_index = self.selected_index + 1
+                    end
                 end
             end
         end
