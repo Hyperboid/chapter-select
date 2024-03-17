@@ -22,7 +22,7 @@ function Mod:postInit(new_file)
     if Game.world.map.id == "chapter_continue" then
         Game.chapter = 1
         Game.CHAPTER_SELECT = CHAPTER_SELECT()
-        if self.undertale then
+        if (self.undertale) and (Mod:hasNoSaveFiles(true)) then
             if self.continue then
                 Game.CHAPTER_CONTINUE = CHAPTER_CONTINUE()
                 Game.stage:addChild(Game.CHAPTER_CONTINUE)
