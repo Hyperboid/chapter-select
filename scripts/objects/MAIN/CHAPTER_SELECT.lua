@@ -391,7 +391,7 @@ function ChapterSelect:update()
                     if self.can_click == true then
                         if self.selected_index == 8 then
                             Assets.playSound("ui_cancel_small")
-                            Game.world:closeMenu()
+                            love.event.quit()
                         else
                             Assets.playSound("ui_select")
                             self.state = "CHAPTER"..self.selected_index
