@@ -137,6 +137,11 @@ function ChapterSelect:loadChapter(index)
         self:loadChapter1()
     elseif index == 2 then
         self:loadChapter2(true)
+    else
+        Game.stage.timer:after(1, function()
+            Game.fader:fadeOut(self.returnToMenu, { speed = 0, music = 10 / 30 })
+            Game.state = "EXIT"
+        end)
     end
 end
 
@@ -404,11 +409,7 @@ function ChapterSelect:update()
                     if self.can_click == true then
                         if self.selected_confirm == 1 then
                             Assets.playSound("ui_select")
-                            if self.selected_index == 1 then
-                                self:loadChapter(1)
-                            elseif self.selected_index == 2 then
-                                self:loadChapter(2)
-                            end
+                            self:loadChapter(self.selected_index)
                         elseif self.selected_confirm == 2 then
                             Assets.playSound("ui_select")
                             self.selected_confirm = 1
