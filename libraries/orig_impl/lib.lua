@@ -1,3 +1,5 @@
+if true then return {} end
+
 function Mod:init()
     print("DELTARUNE Chapter 1&2 Demo -- Made by @undertaled, @huecycles and @firerainv")
 
@@ -9,7 +11,7 @@ function Mod:init()
     ------// Config Options //------
     self.selection_music = "AUDIO_DRONE" -- Music used in Chapter Selection screen
     self.debug = false -- If true, Deltarune Chapter 2's Debug Room menu will appear when selecting Chapter 2 - The Debug room will not be the same one as Deltarune's, though.
-    self.continue = true -- If false, the 'Continue to Chapter X' screen before Chapter Selection will not appear
+    self.continue = false -- If false, the 'Continue to Chapter X' screen before Chapter Selection will not appear
     self.undertale = false -- If true, if you've never loaded the mod before, the game will ask you if you'd like to play Undertale first, like in Deltarune
     self.startingchapter = 1 -- If 'continue' option is set to true, this will be the default chapter you'd start in if you don't have a save file
 end

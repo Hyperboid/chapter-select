@@ -6,7 +6,6 @@
  <properties>
   <property name="name" value="Test Map - Room 1"/>
  </properties>
- <tileset firstgid="1" source="../tilesets/castle.tsx"/>
  <layer id="1" name="tiles" width="24" height="24">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

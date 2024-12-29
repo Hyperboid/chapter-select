@@ -14,14 +14,7 @@ return {
   properties = {
     ["name"] = "Test Map - Room 1"
   },
-  tilesets = {
-    {
-      name = "castle",
-      firstgid = 1,
-      filename = "../tilesets/castle.tsx",
-      exportfilename = "../tilesets/castle.lua"
-    }
-  },
+  tilesets = {},
   layers = {
     {
       type = "tilelayer",

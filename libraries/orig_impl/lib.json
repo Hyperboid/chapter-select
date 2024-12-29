@@ -1,0 +1,4 @@
+{
+    "id": "orig_impl",
+    "dependencies": ["chapterselect_extension"]
+}
